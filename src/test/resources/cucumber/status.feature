@@ -12,9 +12,9 @@ Feature: The system responds with the right status, amount and fee,
 	Examples:
 	
 	| reference | channel | status 	| amount | fee |
-	| xxxxxx 	| ATM     | INVALID |		 |	   |
-	| xxxxxx 	| CLIENT  | INVALID |		 |     |
-	| xxxxxx 	| INTERNAL| INVALID |	 	 |     |
+	| xxxxxx 	| ATM     | INVALID |        |     |
+	| xxxxxx 	| CLIENT  | INVALID |        |     |
+	| xxxxxx 	| INTERNAL| INVALID |        |     |
 	| 000000 	| ATM     | INVALID |		 |     |
 	| 000000 	| CLIENT  | INVALID |		 |     |
 	| 000000	| INTERNAL| INVALID |		 |     |
