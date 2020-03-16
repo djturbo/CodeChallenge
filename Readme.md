@@ -3,6 +3,7 @@ Code challenge
 
 Assumptions
 
+- I have used H2 as in-memory database.
 - Given that the transaction's reference can come included in the call, I first check that it is not empty.
   If it is, I give it the time in milliseconds.
 - For testing that a status of INVALID comes whenever you send a non existent reference,
