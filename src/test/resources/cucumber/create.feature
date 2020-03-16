@@ -1,0 +1,19 @@
+Feature: The system creates a transaction, 
+	returning the actual reference for that transaction
+
+  Scenario Outline: The system is given all data needed
+ 	to create a new transaction, returning the reference
+ 	for that transaction
+ 
+ 	Given reference <reference>, account iban <account_iban>, date <date>, amount <amount>, fee <fee> and description <description>
+	When I call create
+	Then The system returns the reference of the newly created transaction
+	
+	Examples:
+	
+	| reference | account_iban 				      | date 					  | amount | fee | description |
+	| 123456111 | ES9121000418450200051332 | 2021-01-16T20:47:41 |	100	   | 2.3 | Gas		   |
+	| 123456112 | "ES31 2071 3285 6027 9252 1178" | 2018-02-16T13:47:41 |	25	   | 2.3 | Books	   |
+	| 123456113 | "ES85 2086 5224 1366 4017 6203" | 2020-03-10T09:47:41 |	12	   | 1.2 | Internet	   |
+	
+	

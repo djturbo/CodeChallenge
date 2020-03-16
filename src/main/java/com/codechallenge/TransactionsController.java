@@ -8,6 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,15 +19,15 @@ public class TransactionsController {
 	TransactionService transactionService;
 	
     @PostMapping("/create")
-    private String create(@RequestBody TransactionForm transactionForm) {
+    private Map<String, Object> create(@RequestBody TransactionForm transactionForm) {
+    	
         Transaction transaction = transactionForm.getTransaction();
         if (transaction.getReference() == null ||
         		transaction.getReference().equals("")) {
         	transaction.setReference(String.valueOf(java.lang.System.currentTimeMillis()));
         }
     	
-    	transactionService.create(transaction);
-        return transaction.getReference();
+        return transactionService.create(transaction);
     }
     
 	@PostMapping("/search")
@@ -37,7 +39,5 @@ public class TransactionsController {
     private Map<String, Object> getStatus(@RequestBody StatusForm statusForm) {
         return transactionService.getStatus(statusForm.getReference(), statusForm.getChannel());
     }
-
-
-
+    
 }

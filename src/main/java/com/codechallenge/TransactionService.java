@@ -34,12 +34,15 @@ public class TransactionService {
 			sorting = Sort.by("amount").descending();
 		}
 		List<Transaction> listTransactions = transactionRepository.findByIban(iban, sorting);
+		
 		return listTransactions;
 	}
 
-	public void create(Transaction transaction) {
-
+	public Map<String, Object> create(Transaction transaction) {
 		transactionRepository.save(transaction);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("reference", transaction.getReference());
+		return returnMap;
 		// TODO Auto-generated method stub
 
 	}
@@ -65,7 +68,7 @@ public class TransactionService {
 			returnMap.put("status", FUTURE);
 		}
 
-		if (channel.equals(CLIENT) || channel.equals("ATM")) {
+		if (channel.equals(CLIENT) || channel.equals(ATM)) {
 			returnMap.put("amount", df.format(transaction.getAmount() - transaction.getFee()));
 		} else {
 			returnMap.put("amount", transaction.getAmount());

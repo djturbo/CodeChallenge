@@ -56,6 +56,7 @@ public class TransactionForm {
 		this.description = description;
 	}
 	public Transaction getTransaction() {
+		
 		Transaction transaction = new Transaction (reference,
 				account_iban,
 				date,
@@ -63,6 +64,7 @@ public class TransactionForm {
 				fee,
 				description
 				);
+
 		return transaction;
 	}
 	
