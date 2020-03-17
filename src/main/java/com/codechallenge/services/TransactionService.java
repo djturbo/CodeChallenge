@@ -1,6 +1,5 @@
 package com.codechallenge.services;
 
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
@@ -22,18 +21,18 @@ public class TransactionService {
 
 	@Autowired
 	TransactionRepository transactionRepository;
-	
+
 	DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
 	private final String SETTLED = "SETTLED";
 	private final String FUTURE = "FUTURE";
 	private final String PENDING = "PENDING";
 	private final String CLIENT = "CLIENT";
-	private final String ATM= "ATM";
-	private final String INVALID ="INVALID";
-	
+	private final String ATM = "ATM";
+	private final String INVALID = "INVALID";
+
 	DecimalFormat df = new DecimalFormat("0.00");
-	
-	public List<Transaction> getTransactionsByIBAN(String iban, String sort) {
+
+	public List<Transaction> getTransactionsByIBAN(final String iban, final String sort) {
 		Sort sorting = null;
 		if (sort.equals("asc")) {
 			sorting = Sort.by("amount").ascending();
@@ -75,15 +74,15 @@ public class TransactionService {
 			returnMap.put("status", this.FUTURE);
 		}
 
-	    decimalSymbols.setDecimalSeparator('.');
-	    
-	    df.setDecimalFormatSymbols(decimalSymbols);
+		this.decimalSymbols.setDecimalSeparator('.');
 
-		if (channel.equals(CLIENT) || channel.equals(ATM)) {
-			returnMap.put("amount", df.format(transaction.getAmount() - transaction.getFee()));
+		this.df.setDecimalFormatSymbols(this.decimalSymbols);
+
+		if (channel.equals(this.CLIENT) || channel.equals(this.ATM)) {
+			returnMap.put("amount", this.df.format(transaction.getAmount() - transaction.getFee()));
 		} else {
-			returnMap.put("amount", df.format(transaction.getAmount()));
-			returnMap.put("fee", df.format(transaction.getFee()));
+			returnMap.put("amount", this.df.format(transaction.getAmount()));
+			returnMap.put("fee", this.df.format(transaction.getFee()));
 		}
 
 		return returnMap;

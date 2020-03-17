@@ -21,9 +21,9 @@ public class TransactionsController {
 	TransactionService transactionService;
 
 	@PostMapping("/create")
-	public Map<String, Object> create(@RequestBody final TransactionRequest transactionForm) {
+	public Map<String, Object> create(@RequestBody final TransactionRequest transactionRequest) {
 
-		final Transaction transaction = transactionForm.getTransaction();
+		final Transaction transaction = transactionRequest.getTransaction();
 		if (transaction.getReference() == null || transaction.getReference().equals("")) {
 			transaction.setReference(String.valueOf(java.lang.System.currentTimeMillis()));
 		}
@@ -32,13 +32,13 @@ public class TransactionsController {
 	}
 
 	@PostMapping("/search")
-	public List<Transaction> getTransactions(@RequestBody final SearchRequest searchForm) {
-		return this.transactionService.getTransactionsByIBAN(searchForm.getIban(), searchForm.getSort());
+	public List<Transaction> getTransactions(@RequestBody final SearchRequest searchRequest) {
+		return this.transactionService.getTransactionsByIBAN(searchRequest.getIban(), searchRequest.getSort());
 	}
 
 	@PostMapping("/status")
-	public Map<String, Object> getStatus(@RequestBody final StatusRequest statusForm) {
-		return this.transactionService.getStatus(statusForm.getReference(), statusForm.getChannel());
+	public Map<String, Object> getStatus(@RequestBody final StatusRequest statusRequest) {
+		return this.transactionService.getStatus(statusRequest.getReference(), statusRequest.getChannel());
 	}
 
 }

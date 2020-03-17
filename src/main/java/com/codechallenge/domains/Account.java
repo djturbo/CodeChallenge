@@ -1,7 +1,6 @@
 package com.codechallenge.domains;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,15 +17,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "transaction_7075931734841441869")
-public class Transaction implements Serializable {
-	private static final long serialVersionUID = 7075931734841441869L;
+@Table(name = "account_7695333200152491336")
+public class Account implements Serializable {
+	private static final long serialVersionUID = 7695333200152491336L;
 
 	@Id
-	String reference;
 	String iban;
-	ZonedDateTime date;
 	double amount;
-	double fee;
-	String description;
 }

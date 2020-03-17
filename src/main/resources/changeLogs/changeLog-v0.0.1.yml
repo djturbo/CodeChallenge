@@ -1,0 +1,199 @@
+databaseChangeLog:
+- changeSet:
+    id: v0.0.1
+    author: codechallenge
+    changes:
+    - createTable:
+        tableName: account_7695333200152491336
+        columns:
+        - column:
+            name: iban
+            type: varchar(24)
+            constraints:
+              unique: true
+              primaryKey: true
+              nullable: false
+        - column:
+            name: amount
+            type: double
+            constraints:
+              nullable: false
+    - insert:
+        tableName: account_7695333200152491336
+        columns:
+        - column:
+            name: iban
+            value: ES4131891613999502318057
+        - column:
+            name: amount
+            value: 100.00
+    - insert:
+        tableName: account_7695333200152491336
+        columns:
+        - column:
+            name: iban
+            value: ES7720758605524241614429
+        - column:
+            name: amount
+            value: 100.00
+    - createTable:
+        tableName: transaction_7075931734841441869
+        columns:
+        - column:
+            name: reference
+            type: varchar(16)
+            constraints:
+              unique: true
+              primaryKey: true
+              nullable: false
+        - column:
+            name: iban
+            type: varchar(24)
+            constraints:
+              nullable: false
+        - column:
+            name: date
+            type: timestamp
+            constraints:
+              nullable: true
+        - column:
+            name: amount
+            type: double
+            constraints:
+              nullable: false
+        - column:
+            name: fee
+            type: double
+            constraints:
+              nullable: false
+        - column:
+            name: description
+            type: varchar(255)
+            constraints:
+              nullable: false
+    - insert:
+        tableName: transaction_7075931734841441869
+        columns:
+        - column:
+            name: reference
+            value: 123456781
+        - column:
+            name: iban
+            value: ES4131891613999502318057
+        - column:
+            name: date
+            valueDate: 2019-03-16 09:47:41.569Z
+        - column:
+            name: amount
+            value: 330.2    
+        - column:
+            name: fee
+            value: 3.6  
+        - column:
+            name: description
+            value: College     
+    - insert:
+        tableName: transaction_7075931734841441869
+        columns:
+        - column:
+            name: reference
+            value: 123456782
+        - column:
+            name: iban
+            value: ES4131891613999502318057
+        - column:
+            name: date
+            value: now()
+        - column:
+            name: amount
+            value: 25.4    
+        - column:
+            name: fee
+            value: 2.8 
+        - column:
+            name: description
+            value: School    
+    - insert:
+        tableName: transaction_7075931734841441869
+        columns:
+        - column:
+            name: reference
+            value: 123456783
+        - column:
+            name: iban
+            value: ES7720758605524241614429
+        - column:
+            name: date
+            valueDate: 2021-03-16 09:47:41.569Z
+        - column:
+            name: amount
+            value: 25.4    
+        - column:
+            name: fee
+            value: 2.8 
+        - column:
+            name: description
+            value: Fuel 
+    - insert:
+        tableName: transaction_7075931734841441869
+        columns:
+        - column:
+            name: reference
+            value: 123456784
+        - column:
+            name: iban
+            value: ES7720758605524241614429
+        - column:
+            name: date
+            valueDate: 2021-03-16 09:47:41.569Z
+        - column:
+            name: amount
+            value: 25.4    
+        - column:
+            name: fee
+            value: 2.8  
+        - column:
+            name: description
+            value: Fuel
+    - insert:
+        tableName: transaction_7075931734841441869
+        columns:
+        - column:
+            name: reference
+            value: 123456785
+        - column:
+            name: iban
+            value: ES7720758605524241614429
+        - column:
+            name: date
+            valueDate: 2021-03-16 09:47:41.569Z
+        - column:
+            name: amount
+            value: 25.4    
+        - column:
+            name: fee
+            value: 2.8  
+        - column:
+            name: description
+            value: Fuel
+    - insert:
+        tableName: transaction_7075931734841441869
+        columns:
+        - column:
+            name: reference
+            value: 123456786
+        - column:
+            name: iban
+            value: ES7720758605524241614429
+        - column:
+            name: date
+            valueDate: 2021-03-16 09:47:41.569Z
+        - column:
+            name: amount
+            value: 25.4    
+        - column:
+            name: fee
+            value: 2.8  
+        - column:
+            name: description
+            value: Fuel
