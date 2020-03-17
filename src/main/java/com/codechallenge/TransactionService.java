@@ -19,6 +19,7 @@ public class TransactionService {
 	@Autowired
 	TransactionRepository transactionRepository;
 	
+	DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
 	private final String SETTLED = "SETTLED";
 	private final String FUTURE = "FUTURE";
 	private final String PENDING = "PENDING";
@@ -70,11 +71,15 @@ public class TransactionService {
 			returnMap.put("status", FUTURE);
 		}
 
+	    decimalSymbols.setDecimalSeparator('.');
+	    
+	    df.setDecimalFormatSymbols(decimalSymbols);
+
 		if (channel.equals(CLIENT) || channel.equals(ATM)) {
-			returnMap.put("amount", String.format("%.2f", transaction.getAmount() - transaction.getFee()));
+			returnMap.put("amount", df.format(transaction.getAmount() - transaction.getFee()));
 		} else {
-			returnMap.put("amount", String.format("%.2f",transaction.getAmount()));
-			returnMap.put("fee", String.format("%.2f",transaction.getFee()));
+			returnMap.put("amount", df.format(transaction.getAmount()));
+			returnMap.put("fee", df.format(transaction.getFee()));
 		}
 		return returnMap;
 	}
