@@ -23,57 +23,58 @@ public class TransactionService {
 	private final String FUTURE = "FUTURE";
 	private final String PENDING = "PENDING";
 	private final String CLIENT = "CLIENT";
-	private final String ATM= "ATM";
-	private final String INVALID ="INVALID";
-	
-	public List<Transaction> getTransactionsByIBAN(String iban, String sort) {
+	private final String ATM = "ATM";
+	private final String INVALID = "INVALID";
+
+	public List<Transaction> getTransactionsByIBAN(final String iban, final String sort) {
 		Sort sorting = null;
 		if (sort.equals("asc")) {
 			sorting = Sort.by("amount").ascending();
 		} else {
 			sorting = Sort.by("amount").descending();
 		}
-		List<Transaction> listTransactions = transactionRepository.findByIban(iban, sorting);
-		
+		final List<Transaction> listTransactions = this.transactionRepository.findByIban(iban, sorting);
+
 		return listTransactions;
 	}
 
-	public Map<String, Object> create(Transaction transaction) {
-		transactionRepository.save(transaction);
-		Map<String, Object> returnMap = new HashMap<String, Object>();
+	public Map<String, Object> create(final Transaction transaction) {
+		this.transactionRepository.save(transaction);
+		final Map<String, Object> returnMap = new HashMap<>();
 		returnMap.put("reference", transaction.getReference());
 		return returnMap;
-		// TODO Auto-generated method stub
 
 	}
 
-	public Map<String, Object> getStatus(String reference, String channel) {
-		
-		Map<String, Object> returnMap = new HashMap<String, Object>();
+	public Map<String, Object> getStatus(final String reference, final String channel) {
+
+		final Map<String, Object> returnMap = new HashMap<>();
 		returnMap.put("reference", reference);
-		Transaction transaction = transactionRepository.findByReference(reference);
+		final Transaction transaction = this.transactionRepository.findByReference(reference);
 		if (transaction == null) {
-			returnMap.put("status", INVALID);
+			returnMap.put("status", this.INVALID);
 			return returnMap;
 		}
 
-		LocalDate localDateTransaction = transaction.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate actualLocalDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		final LocalDate localDateTransaction = transaction.getDate().toInstant().atZone(ZoneId.systemDefault())
+				.toLocalDate();
+		final LocalDate actualLocalDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
 		if (localDateTransaction.isBefore(actualLocalDate)) {
-			returnMap.put("status", SETTLED);
+			returnMap.put("status", this.SETTLED);
 		} else if (localDateTransaction.isEqual(actualLocalDate)) {
-			returnMap.put("status", PENDING);
+			returnMap.put("status", this.PENDING);
 		} else if (localDateTransaction.isAfter(actualLocalDate)) {
-			returnMap.put("status", FUTURE);
+			returnMap.put("status", this.FUTURE);
 		}
 
-		if (channel.equals(CLIENT) || channel.equals(ATM)) {
-			returnMap.put("amount", df.format(transaction.getAmount() - transaction.getFee()));
+		if (channel.equals(this.CLIENT) || channel.equals(this.ATM)) {
+			returnMap.put("amount", TransactionService.df.format(transaction.getAmount() - transaction.getFee()));
 		} else {
 			returnMap.put("amount", transaction.getAmount());
 			returnMap.put("fee", transaction.getFee());
 		}
+
 		return returnMap;
 	}
 }
