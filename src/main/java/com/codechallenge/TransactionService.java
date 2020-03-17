@@ -19,7 +19,6 @@ public class TransactionService {
 	@Autowired
 	TransactionRepository transactionRepository;
 	
-	DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
 	private final String SETTLED = "SETTLED";
 	private final String FUTURE = "FUTURE";
 	private final String PENDING = "PENDING";
@@ -70,10 +69,6 @@ public class TransactionService {
 		} else if (localDateTransaction.isAfter(actualLocalDate)) {
 			returnMap.put("status", FUTURE);
 		}
-
-	    decimalSymbols.setDecimalSeparator('.');
-	    
-	    df.setDecimalFormatSymbols(decimalSymbols);
 
 		if (channel.equals(CLIENT) || channel.equals(ATM)) {
 			returnMap.put("amount", String.format("%.2f", transaction.getAmount() - transaction.getFee()));
