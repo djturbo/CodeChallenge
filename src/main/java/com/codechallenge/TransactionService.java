@@ -1,6 +1,7 @@
 package com.codechallenge;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -17,14 +18,16 @@ public class TransactionService {
 
 	@Autowired
 	TransactionRepository transactionRepository;
-
-	private static DecimalFormat df = new DecimalFormat("0.00");
+	
+	DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
 	private final String SETTLED = "SETTLED";
 	private final String FUTURE = "FUTURE";
 	private final String PENDING = "PENDING";
 	private final String CLIENT = "CLIENT";
 	private final String ATM= "ATM";
 	private final String INVALID ="INVALID";
+	
+	DecimalFormat df = new DecimalFormat("0.00");
 	
 	public List<Transaction> getTransactionsByIBAN(String iban, String sort) {
 		Sort sorting = null;
@@ -68,11 +71,15 @@ public class TransactionService {
 			returnMap.put("status", FUTURE);
 		}
 
+	    decimalSymbols.setDecimalSeparator('.');
+	    
+	    df.setDecimalFormatSymbols(decimalSymbols);
+
 		if (channel.equals(CLIENT) || channel.equals(ATM)) {
-			returnMap.put("amount", df.format(transaction.getAmount() - transaction.getFee()));
+			returnMap.put("amount", String.format("%.2f", transaction.getAmount() - transaction.getFee()));
 		} else {
-			returnMap.put("amount", df.format(transaction.getAmount()));
-			returnMap.put("fee", df.format(transaction.getFee()));
+			returnMap.put("amount", String.format("%.2f",transaction.getAmount()));
+			returnMap.put("fee", String.format("%.2f",transaction.getFee()));
 		}
 		return returnMap;
 	}
