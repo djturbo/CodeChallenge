@@ -1,7 +1,7 @@
 package com.codechallenge.domains;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,8 +23,8 @@ public class Transaction implements Serializable {
 	@Id
 	String reference;
 	String iban;
-	Calendar date;
-	float amount;
-	float fee;
+	ZonedDateTime date;
+	double amount;
+	double fee;
 	String description;
 }

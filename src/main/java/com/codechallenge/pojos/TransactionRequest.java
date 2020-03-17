@@ -1,6 +1,6 @@
 package com.codechallenge.pojos;
 
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 import com.codechallenge.domains.Transaction;
 
@@ -16,14 +16,14 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TransactionRequest {
 	String reference;
-	String account_iban;
-	Calendar date;
-	float amount;
-	float fee;
+	String iban;
+	ZonedDateTime date;
+	double amount;
+	double fee;
 	String description;
 
 	public Transaction getTransaction() {
-		return new Transaction(this.reference, this.account_iban, this.date, this.amount, this.fee, this.description);
+		return new Transaction(this.reference, this.iban, this.date, this.amount, this.fee, this.description);
 	}
 
 }
