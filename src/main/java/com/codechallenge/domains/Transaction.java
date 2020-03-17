@@ -1,4 +1,4 @@
-package com.codechallenge;
+package com.codechallenge.domains;
 
 import java.io.Serializable;
 import java.util.Calendar;

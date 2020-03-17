@@ -1,4 +1,5 @@
-package com.codechallenge;
+package com.codechallenge.services;
+
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -12,6 +13,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.codechallenge.domains.Transaction;
+import com.codechallenge.repositories.TransactionRepository;
 
 @Service
 public class TransactionService {
