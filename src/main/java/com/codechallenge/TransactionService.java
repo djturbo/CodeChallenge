@@ -71,8 +71,8 @@ public class TransactionService {
 		if (channel.equals(CLIENT) || channel.equals(ATM)) {
 			returnMap.put("amount", df.format(transaction.getAmount() - transaction.getFee()));
 		} else {
-			returnMap.put("amount", transaction.getAmount());
-			returnMap.put("fee", transaction.getFee());
+			returnMap.put("amount", df.format(transaction.getAmount()));
+			returnMap.put("fee", df.format(transaction.getFee()));
 		}
 		return returnMap;
 	}

@@ -11,20 +11,20 @@ Feature: The system responds with the right status, amount and fee,
 	
 	Examples:
 	
-	| reference | channel | status 	| amount | fee |
-	| xxxxxx 	| ATM     | INVALID |        |     |
-	| xxxxxx 	| CLIENT  | INVALID |        |     |
-	| xxxxxx 	| INTERNAL| INVALID |        |     |
-	| 000000 	| ATM     | INVALID |		 |     |
-	| 000000 	| CLIENT  | INVALID |		 |     |
-	| 000000	| INTERNAL| INVALID |		 |     |
-	| 123456781 | ATM     | SETTLED | 326.60 | 	   |
-	| 123456782	| ATM  	  | PENDING | 22.60	 |     |
-	| 123456783 | ATM	  | FUTURE 	| 22.60  |     |
-	| 123456781 | CLIENT  | SETTLED | 326.60 | 	   |
-	| 123456782	| CLIENT  | PENDING | 22.60	 |     |
-	| 123456783 | CLIENT  | FUTURE 	| 22.60  |     |	
-	| 123456781 | INTERNAL| SETTLED | 330.2  | 3.6 |
-	| 123456782	| INTERNAL| PENDING | 25.4	 | 2.8 |
-	| 123456783 | INTERNAL| FUTURE 	| 25.4   | 2.8 |	
+	| reference | channel | status 	| amount | fee  |
+	| xxxxxx 	| ATM     | INVALID |        |      |
+	| xxxxxx 	| CLIENT  | INVALID |        |      |
+	| xxxxxx 	| INTERNAL| INVALID |        |      |
+	| 000000 	| ATM     | INVALID |		 |      |
+	| 000000 	| CLIENT  | INVALID |		 |      |
+	| 000000	| INTERNAL| INVALID |		 |      |
+	| 123456781 | ATM     | SETTLED | 326,60 | 	    |
+	| 123456782	| ATM  	  | PENDING | 22,60	 |      |
+	| 123456783 | ATM	  | FUTURE 	| 22,60  |      |
+	| 123456781 | CLIENT  | SETTLED | 326,60 | 	    |
+	| 123456782	| CLIENT  | PENDING | 22,60	 |      |
+	| 123456783 | CLIENT  | FUTURE 	| 22,60  |      |	
+	| 123456781 | INTERNAL| SETTLED | 330,20 | 3,60 |
+	| 123456782	| INTERNAL| PENDING | 25,40	 | 2,80 |
+	| 123456783 | INTERNAL| FUTURE 	| 25,40  | 2,80 |	
 	
