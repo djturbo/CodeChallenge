@@ -1,5 +1,7 @@
 package com.codechallenge.models;
 
+import org.springframework.data.domain.Sort.Direction;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +14,5 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SearchRequest {
 	String iban;
-	String sort;
+	Direction sort;
 }

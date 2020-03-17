@@ -11,9 +11,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.codechallenge.domains.Transaction;
+import com.codechallenge.models.SearchRequest;
 import com.codechallenge.models.StatusResponse;
 import com.codechallenge.models.enums.TransactionChannel;
 import com.codechallenge.models.enums.TransactionStatus;
@@ -28,16 +30,16 @@ public class TransactionService {
 	DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
 	DecimalFormat df = new DecimalFormat("0.00");
 
-	public List<Transaction> getTransactionsByIBAN(final String iban, final String sort) {
-		Sort sorting = null;
-		if (sort.equals("asc")) {
-			sorting = Sort.by("amount").ascending();
-		} else {
-			sorting = Sort.by("amount").descending();
+	public List<Transaction> getTransactions(final SearchRequest searchRequest) {
+		if (searchRequest == null) {
+			return this.transactionRepository.findAll(Sort.by(Direction.ASC, "amount"));
 		}
-		final List<Transaction> listTransactions = this.transactionRepository.findByIban(iban, sorting);
 
-		return listTransactions;
+		final Direction direction = searchRequest.getSort() == null ? Direction.ASC : searchRequest.getSort();
+		final Sort sort = Sort.by(direction, "amount");
+
+		return searchRequest.getIban() == null ? this.transactionRepository.findAll(sort)
+				: this.transactionRepository.findByIban(searchRequest.getIban(), sort);
 	}
 
 	public Map<String, Object> create(final Transaction transaction) {

@@ -33,8 +33,8 @@ public class TransactionsController {
 	}
 
 	@PostMapping("/search")
-	public List<Transaction> getTransactions(@RequestBody final SearchRequest searchRequest) {
-		return this.transactionService.getTransactionsByIBAN(searchRequest.getIban(), searchRequest.getSort());
+	public List<Transaction> getTransactions(@RequestBody(required = false) final SearchRequest searchRequest) {
+		return this.transactionService.getTransactions(searchRequest);
 	}
 
 	@PostMapping("/status")
