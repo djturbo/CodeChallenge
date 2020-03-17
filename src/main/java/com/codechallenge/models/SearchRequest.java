@@ -1,16 +1,16 @@
-package com.codechallenge.pojos;
+package com.codechallenge.models;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StatusRequest {
-	String reference;
-	String channel;
+public class SearchRequest {
+	String iban;
+	String sort;
 }

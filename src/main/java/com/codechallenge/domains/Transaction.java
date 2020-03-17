@@ -26,7 +26,7 @@ public class Transaction implements Serializable {
 	String reference;
 	String iban;
 	ZonedDateTime date;
-	double amount;
-	double fee;
+	Double amount;
+	Double fee;
 	String description;
 }

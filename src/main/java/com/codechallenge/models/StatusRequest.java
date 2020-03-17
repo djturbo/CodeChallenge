@@ -1,4 +1,6 @@
-package com.codechallenge.pojos;
+package com.codechallenge.models;
+
+import com.codechallenge.models.enums.TransactionChannel;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SearchRequest {
-	String iban;
-	String sort;
+public class StatusRequest {
+	String reference;
+	TransactionChannel channel;
 }

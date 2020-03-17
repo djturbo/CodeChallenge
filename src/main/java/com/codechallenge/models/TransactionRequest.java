@@ -1,4 +1,4 @@
-package com.codechallenge.pojos;
+package com.codechallenge.models;
 
 import java.time.ZonedDateTime;
 
@@ -18,8 +18,8 @@ public class TransactionRequest {
 	String reference;
 	String iban;
 	ZonedDateTime date;
-	double amount;
-	double fee;
+	Double amount;
+	Double fee;
 	String description;
 
 	public Transaction getTransaction() {

@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codechallenge.domains.Transaction;
-import com.codechallenge.pojos.SearchRequest;
-import com.codechallenge.pojos.StatusRequest;
-import com.codechallenge.pojos.TransactionRequest;
+import com.codechallenge.models.SearchRequest;
+import com.codechallenge.models.StatusRequest;
+import com.codechallenge.models.StatusResponse;
+import com.codechallenge.models.TransactionRequest;
 import com.codechallenge.services.TransactionService;
 
 @RestController
@@ -37,7 +38,7 @@ public class TransactionsController {
 	}
 
 	@PostMapping("/status")
-	public Map<String, Object> getStatus(@RequestBody final StatusRequest statusRequest) {
+	public StatusResponse getStatus(@RequestBody final StatusRequest statusRequest) {
 		return this.transactionService.getStatus(statusRequest.getReference(), statusRequest.getChannel());
 	}
 
