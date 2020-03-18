@@ -43,8 +43,7 @@ public class TransactionService {
 	AccountRepository accountRepository;
 
 	@Transactional
-	public TransactionResponse createTransaction(final TransactionRequest transactionRequest)
-			throws NoAccountException, NoFundsException {
+	public TransactionResponse createTransaction(final TransactionRequest transactionRequest) {
 		final BigDecimal total = this.getTotal(transactionRequest);
 		final Account account = this.accountRepository.findByIban(transactionRequest.getIban());
 
@@ -69,14 +68,13 @@ public class TransactionService {
 		return transaction.getAmount().subtract(this.createFeeFactory(transaction));
 	}
 
-	private void checkAccountExists(final Account account, final TransactionRequest transactionRequest)
-			throws NoAccountException {
+	private void checkAccountExists(final Account account, final TransactionRequest transactionRequest) {
 		if (account == null) {
 			throw new NoAccountException("Account " + transactionRequest.getIban() + " is not available");
 		}
 	}
 
-	private void checkHasFunds(final Account account, final BigDecimal total) throws NoFundsException {
+	private void checkHasFunds(final Account account, final BigDecimal total) {
 		if (this.addTotal(account, total).compareTo(BigDecimal.ZERO) < 0) {
 			throw new NoFundsException(
 					"Cannot substract " + total.abs().toString() + " from " + account.getAmount().toString());
