@@ -19,7 +19,14 @@ import com.codechallenge.models.TransactionRequest;
 import com.codechallenge.models.TransactionResponse;
 import com.codechallenge.services.TransactionService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
+@Api(value = "Transactions", tags = { "Description", "Api for transactions management" })
 public class TransactionsController {
 
 	@Autowired
@@ -27,19 +34,34 @@ public class TransactionsController {
 
 	@Transactional
 	@PostMapping("/")
-	public TransactionResponse create(@RequestBody final TransactionRequest transactionRequest)
+	@ApiOperation(value = "Creates a new transaction")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Transaction created"),
+			@ApiResponse(code = 500, message = "Internal error server"),
+			@ApiResponse(code = 400, message = "Incorrect request") })
+	public TransactionResponse createTransaction(
+			@ApiParam(value = "The transaction to be created") @RequestBody final TransactionRequest transactionRequest)
 			throws NoAccountException, NoFundsException {
-		return this.transactionService.create(transactionRequest);
+		return this.transactionService.createTransaction(transactionRequest);
 	}
 
 	@PostMapping("/search")
-	public List<Transaction> getTransactions(@RequestBody(required = false) final SearchRequest searchRequest) {
-		return this.transactionService.findTransaction(searchRequest);
+	@ApiOperation(value = "List transactions with filter")
+	@ApiResponses({ @ApiResponse(code = 200, message = "List of transactions sent"),
+			@ApiResponse(code = 500, message = "Internal error server"),
+			@ApiResponse(code = 400, message = "Incorrect request") })
+	public List<Transaction> findTransactions(
+			@ApiParam(value = "Transaction search params") @RequestBody(required = false) final SearchRequest searchRequest) {
+		return this.transactionService.findTransactions(searchRequest);
 	}
 
 	@PostMapping("/status")
-	public StatusResponse getStatus(@RequestBody final StatusRequest statusRequest) {
-		return this.transactionService.getStatus(statusRequest);
+	@ApiOperation(value = "Get a transaction status")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Status of a transaction sent"),
+			@ApiResponse(code = 500, message = "Internal error server"),
+			@ApiResponse(code = 400, message = "Incorrect request") })
+	public StatusResponse findTransactionStatus(
+			@ApiParam(value = "Transaction status search params") @RequestBody final StatusRequest statusRequest) {
+		return this.transactionService.findTransactionStatus(statusRequest);
 	}
 
 }

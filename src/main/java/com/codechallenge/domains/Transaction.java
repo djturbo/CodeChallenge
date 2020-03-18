@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NaturalId;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,12 +26,14 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "transaction_7075931734841441869")
+@ApiModel(value = "Transaction", description = "A bank transaction")
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 7075931734841441869L;
 
 	@Id
 	String reference;
 	@NonNull
+	@NaturalId
 	@JsonProperty("account_iban")
 	String iban;
 	ZonedDateTime date;
