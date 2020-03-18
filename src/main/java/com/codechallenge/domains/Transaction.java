@@ -10,7 +10,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.codechallenge.serialization.MoneySerializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AccessLevel;
@@ -32,13 +34,20 @@ public class Transaction implements Serializable {
 
 	@Id
 	String reference;
+
 	@NonNull
 	@NaturalId
 	@JsonProperty("account_iban")
 	String iban;
+
 	ZonedDateTime date;
+
 	@NonNull
+	@JsonSerialize(using = MoneySerializer.class)
 	BigDecimal amount;
+
+	@JsonSerialize(using = MoneySerializer.class)
 	BigDecimal fee;
+
 	String description;
 }

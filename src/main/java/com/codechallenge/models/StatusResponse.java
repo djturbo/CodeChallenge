@@ -3,7 +3,9 @@ package com.codechallenge.models;
 import java.math.BigDecimal;
 
 import com.codechallenge.models.enums.TransactionStatus;
+import com.codechallenge.serialization.MoneySerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,9 +30,11 @@ public class StatusResponse {
 	@ApiModelProperty(value = "The status of the transaction", allowableValues = "PENDING,SETTLED,FUTURE,INVALID")
 	TransactionStatus status;
 
+	@JsonSerialize(using = MoneySerializer.class)
 	@ApiModelProperty(value = "The amount of the transaction")
 	BigDecimal amount;
 
+	@JsonSerialize(using = MoneySerializer.class)
 	@ApiModelProperty(value = "The fee applied to the transaction")
 	BigDecimal fee;
 }
