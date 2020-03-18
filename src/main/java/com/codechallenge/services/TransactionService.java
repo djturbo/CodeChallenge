@@ -43,7 +43,7 @@ public class TransactionService {
 	AccountRepository accountRepository;
 
 	@Transactional
-	public TransactionResponse create(final TransactionRequest transactionRequest)
+	public TransactionResponse createTransaction(final TransactionRequest transactionRequest)
 			throws NoAccountException, NoFundsException {
 		final BigDecimal total = this.getTotal(transactionRequest);
 		final Account account = this.accountRepository.findByIban(transactionRequest.getIban());
@@ -104,7 +104,7 @@ public class TransactionService {
 		return transaction.getFee() == null ? BigDecimal.ZERO : transaction.getFee();
 	}
 
-	public List<Transaction> findTransaction(final SearchRequest searchRequest) {
+	public List<Transaction> findTransactions(final SearchRequest searchRequest) {
 		if (searchRequest == null) {
 			return this.transactionRepository.findAll(Sort.by(Direction.ASC, TransactionService.DEFAULT_SORT_PROPERTY));
 		}
@@ -116,9 +116,9 @@ public class TransactionService {
 				: this.transactionRepository.findByIban(searchRequest.getIban(), sort);
 	}
 
-	public StatusResponse getStatus(final StatusRequest statusRequest) {
+	public StatusResponse findTransactionStatus(final StatusRequest statusRequest) {
 		final String reference = statusRequest.getReference();
-		final TransactionChannel channel = statusRequest.getChannel();
+		final TransactionChannel channel = this.transactionChannelFactory(statusRequest);
 		final Transaction transaction = this.transactionRepository.findByReference(reference);
 
 		final StatusResponse statusResponse = new StatusResponse(reference);
@@ -127,6 +127,10 @@ public class TransactionService {
 		statusResponse.setFee(this.statusFeeFactory(transaction, channel));
 
 		return statusResponse;
+	}
+
+	private TransactionChannel transactionChannelFactory(final StatusRequest statusRequest) {
+		return statusRequest.getChannel() == null ? TransactionChannel.CLIENT : statusRequest.getChannel();
 	}
 
 	private TransactionStatus transactionStatusFactory(final Transaction transaction) {
