@@ -40,3 +40,7 @@
 - API documentation: http://localhost:8080/swagger-ui.html
 - H2 console: http://localhost:8080/h2-console (default options)
  
+## TODO
+
+- Unit testing
+- More cucumber tests for assumptions
