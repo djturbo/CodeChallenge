@@ -47,7 +47,7 @@ public class TransactionService {
 		final BigDecimal total = this.getTotal(transactionRequest);
 		final Account account = this.accountRepository.findByIban(transactionRequest.getIban());
 
-		this.checkAccount(account);
+		this.checkAccount(account, transactionRequest);
 		this.checkAccountAmount(account, total);
 
 		final Transaction transaction = new Transaction(transactionRequest.getIban(), transactionRequest.getAmount());
@@ -68,15 +68,17 @@ public class TransactionService {
 		return transaction.getAmount().subtract(this.createFeeFactory(transaction));
 	}
 
-	private void checkAccount(final Account account) throws NoAccountException {
+	private void checkAccount(final Account account, final TransactionRequest transactionRequest)
+			throws NoAccountException {
 		if (account == null) {
-			throw new NoAccountException("");
+			throw new NoAccountException("Account " + transactionRequest.getIban() + " is not available");
 		}
 	}
 
 	private void checkAccountAmount(final Account account, final BigDecimal total) throws NoFundsException {
 		if (account.getAmount().add(total).compareTo(BigDecimal.ZERO) < 0) {
-			throw new NoFundsException("");
+			throw new NoFundsException(
+					"Cannot substract " + total.abs().toString() + " from " + account.getAmount().toString());
 		}
 	}
 
@@ -125,13 +127,13 @@ public class TransactionService {
 			return TransactionStatus.INVALID;
 		}
 
-		final LocalDate localDateTransaction = transaction.getDate().toInstant().atZone(ZoneId.systemDefault())
+		final LocalDate transactionLocalDate = transaction.getDate().toInstant().atZone(ZoneId.systemDefault())
 				.toLocalDate();
 		final LocalDate actualLocalDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-		if (localDateTransaction.isBefore(actualLocalDate)) {
+		if (transactionLocalDate.isBefore(actualLocalDate)) {
 			return TransactionStatus.SETTLED;
-		} else if (localDateTransaction.isEqual(actualLocalDate)) {
+		} else if (transactionLocalDate.isEqual(actualLocalDate)) {
 			return TransactionStatus.PENDING;
 		} else {
 			return TransactionStatus.FUTURE;
