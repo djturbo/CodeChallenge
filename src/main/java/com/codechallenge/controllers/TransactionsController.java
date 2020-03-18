@@ -26,7 +26,7 @@ public class TransactionsController {
 	TransactionService transactionService;
 
 	@Transactional
-	@PostMapping("/create")
+	@PostMapping("/")
 	public TransactionResponse create(@RequestBody final TransactionRequest transactionRequest)
 			throws NoAccountException, NoFundsException {
 		return this.transactionService.create(transactionRequest);
@@ -39,7 +39,7 @@ public class TransactionsController {
 
 	@PostMapping("/status")
 	public StatusResponse getStatus(@RequestBody final StatusRequest statusRequest) {
-		return this.transactionService.getStatus(statusRequest.getReference(), statusRequest.getChannel());
+		return this.transactionService.getStatus(statusRequest);
 	}
 
 }

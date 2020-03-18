@@ -55,7 +55,6 @@ public class TestSteps {
 
 	@Given("^A transaction with reference (.*)")
 	public void aTransNotStored(final String reference) {
-
 		this.reference = reference;
 	}
 
@@ -123,7 +122,7 @@ public class TestSteps {
 
 		final HttpEntity<String> request = new HttpEntity<>(transactionJsonObject.toString(), headers);
 
-		this.transactionResultAsJsonStr = this.restTemplate2.postForObject("/create", request, String.class);
+		this.transactionResultAsJsonStr = this.restTemplate2.postForObject("/", request, String.class);
 		this.root = this.objectMapper.readTree(this.transactionResultAsJsonStr);
 	}
 

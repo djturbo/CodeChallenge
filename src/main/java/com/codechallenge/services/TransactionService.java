@@ -21,6 +21,7 @@ import com.codechallenge.domains.Transaction;
 import com.codechallenge.exceptions.NoAccountException;
 import com.codechallenge.exceptions.NoFundsException;
 import com.codechallenge.models.SearchRequest;
+import com.codechallenge.models.StatusRequest;
 import com.codechallenge.models.StatusResponse;
 import com.codechallenge.models.TransactionRequest;
 import com.codechallenge.models.TransactionResponse;
@@ -47,8 +48,8 @@ public class TransactionService {
 		final BigDecimal total = this.getTotal(transactionRequest);
 		final Account account = this.accountRepository.findByIban(transactionRequest.getIban());
 
-		this.checkAccount(account, transactionRequest);
-		this.checkAccountAmount(account, total);
+		this.checkAccountExists(account, transactionRequest);
+		this.checkHasFunds(account, total);
 
 		final Transaction transaction = new Transaction(transactionRequest.getIban(), transactionRequest.getAmount());
 		transaction.setReference(this.createReferenceFactory(transactionRequest));
@@ -58,7 +59,7 @@ public class TransactionService {
 
 		this.transactionRepository.save(transaction);
 
-		account.setAmount(account.getAmount().add(total));
+		account.setAmount(this.addTotal(account, total));
 		this.accountRepository.save(account);
 
 		return new TransactionResponse(transaction.getReference());
@@ -68,18 +69,22 @@ public class TransactionService {
 		return transaction.getAmount().subtract(this.createFeeFactory(transaction));
 	}
 
-	private void checkAccount(final Account account, final TransactionRequest transactionRequest)
+	private void checkAccountExists(final Account account, final TransactionRequest transactionRequest)
 			throws NoAccountException {
 		if (account == null) {
 			throw new NoAccountException("Account " + transactionRequest.getIban() + " is not available");
 		}
 	}
 
-	private void checkAccountAmount(final Account account, final BigDecimal total) throws NoFundsException {
-		if (account.getAmount().add(total).compareTo(BigDecimal.ZERO) < 0) {
+	private void checkHasFunds(final Account account, final BigDecimal total) throws NoFundsException {
+		if (this.addTotal(account, total).compareTo(BigDecimal.ZERO) < 0) {
 			throw new NoFundsException(
 					"Cannot substract " + total.abs().toString() + " from " + account.getAmount().toString());
 		}
+	}
+
+	private BigDecimal addTotal(final Account account, final BigDecimal total) {
+		return account.getAmount().add(total);
 	}
 
 	private String createReferenceFactory(final TransactionRequest transaction) {
@@ -111,7 +116,9 @@ public class TransactionService {
 				: this.transactionRepository.findByIban(searchRequest.getIban(), sort);
 	}
 
-	public StatusResponse getStatus(final String reference, final TransactionChannel channel) {
+	public StatusResponse getStatus(final StatusRequest statusRequest) {
+		final String reference = statusRequest.getReference();
+		final TransactionChannel channel = statusRequest.getChannel();
 		final Transaction transaction = this.transactionRepository.findByReference(reference);
 
 		final StatusResponse statusResponse = new StatusResponse(reference);
