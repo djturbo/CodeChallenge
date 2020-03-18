@@ -10,5 +10,5 @@ Feature: The system responds with the the list of transactions
 	Examples:
 	
 	| iban 						| sort | 
-	| ES4131891613999502318057 	| asc  | 
-	| ES7720758605524241614429	| desc | 	
+	| ES4131891613999502318057 	| ASC  | 
+	| ES7720758605524241614429	| DESC | 	

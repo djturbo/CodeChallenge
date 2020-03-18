@@ -1,10 +1,5 @@
 package com.codechallenge.models;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,12 +10,6 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TransactionRequest {
+public class TransactionResponse {
 	String reference;
-	@JsonProperty("account_iban")
-	String iban;
-	ZonedDateTime date;
-	BigDecimal amount;
-	BigDecimal fee;
-	String description;
 }

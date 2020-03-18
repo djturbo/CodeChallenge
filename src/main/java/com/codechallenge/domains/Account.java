@@ -1,6 +1,7 @@
 package com.codechallenge.domains;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,5 +24,5 @@ public class Account implements Serializable {
 
 	@Id
 	String iban;
-	double amount;
+	BigDecimal amount;
 }

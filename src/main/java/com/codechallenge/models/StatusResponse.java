@@ -1,5 +1,7 @@
 package com.codechallenge.models;
 
+import java.math.BigDecimal;
+
 import com.codechallenge.models.enums.TransactionStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -19,6 +21,6 @@ public class StatusResponse {
 	@NonNull
 	String reference;
 	TransactionStatus status;
-	Double amount;
-	Double fee;
+	BigDecimal amount;
+	BigDecimal fee;
 }
