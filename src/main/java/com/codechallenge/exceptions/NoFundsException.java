@@ -1,6 +1,6 @@
 package com.codechallenge.exceptions;
 
-public class NoFundsException extends Exception {
+public class NoFundsException extends RuntimeException {
 	private static final long serialVersionUID = 5356844567809364726L;
 
 	public NoFundsException(final String errorMessage) {
