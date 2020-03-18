@@ -23,9 +23,8 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiEndPointsInfo() {
-		return new ApiInfoBuilder().title("Code Challenge REST API")
-				.description("naCode Challenge REST API description")
-				.contact(new Contact("AAA", "www.AAA.net", "AAA@AAA.com")).license("AAA").licenseUrl("AAA")
+		return new ApiInfoBuilder().title("Code Challenge REST API").description("Code Challenge REST API description")
+				.contact(new Contact("AAA", "www.AAA.com", "AAA@AAA.com")).license("AAA").licenseUrl("AAA")
 				.version("0.0.1").build();
 	}
 }
