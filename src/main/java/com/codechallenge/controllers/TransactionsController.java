@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,13 +23,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 @Api(value = "Transactions", tags = { "Description", "Api for transactions management" })
 public class TransactionsController {
-
-	@Autowired
-	TransactionService transactionService;
+	
+	private static final Logger LOG = LoggerFactory.getLogger(TransactionsController.class);
+	
+	private final TransactionService transactionService;
+	
 
 	@Transactional
 	@PostMapping("/")
@@ -36,7 +41,11 @@ public class TransactionsController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "Transaction created") })
 	public TransactionResponse createTransaction(
 			@ApiParam(value = "The transaction to be created") @RequestBody final TransactionRequest transactionRequest) {
-		return this.transactionService.createTransaction(transactionRequest);
+		LOG.debug("Entering into create transaction controller method ...");
+		TransactionResponse tResponse = this.transactionService.createTransaction(transactionRequest);
+		LOG.debug("Transaction created {}", tResponse);
+		
+		return tResponse;
 	}
 
 	@PostMapping("/search")

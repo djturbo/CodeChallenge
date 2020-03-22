@@ -11,7 +11,6 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -30,17 +29,17 @@ import com.codechallenge.models.enums.TransactionStatus;
 import com.codechallenge.repositories.AccountRepository;
 import com.codechallenge.repositories.TransactionRepository;
 
+import lombok.AllArgsConstructor;
+@AllArgsConstructor
 @Service
 public class TransactionService {
 
-	private static final String DEFAULT_SORT_PROPERTY = "amount";
+	public static final String DEFAULT_SORT_PROPERTY = "amount";
 	private static final int REFERENCE_LENGTH = 6;
 
-	@Autowired
-	TransactionRepository transactionRepository;
-
-	@Autowired
-	AccountRepository accountRepository;
+	
+	private final TransactionRepository transactionRepository;
+	private final AccountRepository accountRepository;
 
 	@Transactional
 	public TransactionResponse createTransaction(final TransactionRequest transactionRequest) {
