@@ -1,4 +1,4 @@
-package com.codechallenge.controllers;
+package com.codechallenge.controller;
 
 import java.util.List;
 
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codechallenge.domains.Transaction;
-import com.codechallenge.models.SearchRequest;
-import com.codechallenge.models.StatusRequest;
-import com.codechallenge.models.StatusResponse;
-import com.codechallenge.models.TransactionRequest;
-import com.codechallenge.models.TransactionResponse;
-import com.codechallenge.services.TransactionService;
+import com.codechallenge.domain.Transaction;
+import com.codechallenge.model.SearchRequest;
+import com.codechallenge.model.StatusRequest;
+import com.codechallenge.model.StatusResponse;
+import com.codechallenge.model.TransactionRequest;
+import com.codechallenge.model.TransactionResponse;
+import com.codechallenge.service.TransactionService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

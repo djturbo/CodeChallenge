@@ -1,4 +1,4 @@
-package com.codechallenge.domains;
+package com.codechallenge.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

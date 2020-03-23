@@ -4,7 +4,7 @@
 
 - The microservice is self-contained. H2 is used as in-memory database, but it is assumed that the actual database could be a NoSQL, so table relationships are avoided.
 - The Account entity should be managed by another microservice, but setted here for testing and functionality purposes.
-- Cucumber, and its ordinary language parser Gherkin, have been used for tests.
+- JUnit Jupiter and Mockito, has been used for unitary tests and SpringBootTest for integration Tests.
 - All endpoints use the HTTP POST method, denormalizing standard REST methods to ensure correct body encryption and secure transactions over HTTPS
 - To help with CD and CI databases are versioned using Liquibase
 - Swagger is used to document the API

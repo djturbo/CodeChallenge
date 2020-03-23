@@ -1,4 +1,4 @@
-package com.codechallenge.models;
+package com.codechallenge.model;
 
 import org.springframework.data.domain.Sort.Direction;
 

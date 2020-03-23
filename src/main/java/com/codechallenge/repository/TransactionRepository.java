@@ -1,11 +1,11 @@
-package com.codechallenge.repositories;
+package com.codechallenge.repository;
 
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.codechallenge.domains.Transaction;
+import com.codechallenge.domain.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
 	List<Transaction> findByIban(String iban, Sort sort);

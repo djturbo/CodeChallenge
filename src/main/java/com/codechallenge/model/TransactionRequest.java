@@ -1,4 +1,4 @@
-package com.codechallenge.models;
+package com.codechallenge.model;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;

@@ -18,18 +18,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.codechallenge.domains.Account;
-import com.codechallenge.domains.Transaction;
-import com.codechallenge.models.SearchRequest;
-import com.codechallenge.models.StatusRequest;
-import com.codechallenge.models.StatusResponse;
-import com.codechallenge.models.TransactionRequest;
-import com.codechallenge.models.TransactionResponse;
+import com.codechallenge.domain.Account;
+import com.codechallenge.domain.Transaction;
+import com.codechallenge.model.SearchRequest;
+import com.codechallenge.model.StatusRequest;
+import com.codechallenge.model.StatusResponse;
+import com.codechallenge.model.TransactionRequest;
+import com.codechallenge.model.TransactionResponse;
 import com.codechallenge.models.enums.TransactionChannel;
 import com.codechallenge.models.enums.TransactionStatus;
-import com.codechallenge.repositories.AccountRepository;
-import com.codechallenge.repositories.TransactionRepository;
-import com.codechallenge.services.TransactionService;
+import com.codechallenge.repository.AccountRepository;
+import com.codechallenge.repository.TransactionRepository;
+import com.codechallenge.service.impl.TransactionServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
@@ -59,11 +59,11 @@ public class TransactionServiceTest {
 	private AccountRepository accountRepository;
 	
 	@InjectMocks
-	private TransactionService service;
+	private TransactionServiceImpl service;
 	
 	@BeforeEach
 	public void setup() {
-		this.service = new TransactionService(transactionRepository, accountRepository);
+		this.service = new TransactionServiceImpl(transactionRepository, accountRepository);
 	}
 	
 	/* Test the creation transaction code */
@@ -93,7 +93,7 @@ public class TransactionServiceTest {
 		final SearchRequest searchRequest = new SearchRequest();
 
 		final Direction direction = searchRequest.getSort() == null ? Direction.ASC : searchRequest.getSort();
-		final Sort sort = Sort.by(direction, TransactionService.DEFAULT_SORT_PROPERTY);
+		final Sort sort = Sort.by(direction, TransactionServiceImpl.DEFAULT_SORT_PROPERTY);
 		
 		when(this.transactionRepository.findAll(sort)).thenReturn(DEFAULT_TRANSACTION_LIST);
 		List<Transaction> result = service.findTransactions(searchRequest);
@@ -115,7 +115,7 @@ public class TransactionServiceTest {
 		final SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setIban(DEFAULT_IBAN);
 		final Direction direction = searchRequest.getSort() == null ? Direction.ASC : searchRequest.getSort();
-		final Sort sort = Sort.by(direction, TransactionService.DEFAULT_SORT_PROPERTY);
+		final Sort sort = Sort.by(direction, TransactionServiceImpl.DEFAULT_SORT_PROPERTY);
 		
 		when(this.transactionRepository.findByIban(searchRequest.getIban(), sort)).thenReturn(DEFAULT_TRANSACTION_LIST);
 		List<Transaction> result = service.findTransactions(searchRequest);
@@ -136,7 +136,7 @@ public class TransactionServiceTest {
 		
 		final SearchRequest searchRequest = null;
 		
-		when(this.transactionRepository.findAll(Sort.by(Direction.ASC, TransactionService.DEFAULT_SORT_PROPERTY))).thenReturn(DEFAULT_TRANSACTION_LIST);
+		when(this.transactionRepository.findAll(Sort.by(Direction.ASC, TransactionServiceImpl.DEFAULT_SORT_PROPERTY))).thenReturn(DEFAULT_TRANSACTION_LIST);
 		List<Transaction> result = service.findTransactions(searchRequest);
 
 		assertThat(result).isNotNull();

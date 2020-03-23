@@ -1,4 +1,4 @@
-package com.codechallenge.controllers;
+package com.codechallenge;
 
 import java.io.IOException;
 

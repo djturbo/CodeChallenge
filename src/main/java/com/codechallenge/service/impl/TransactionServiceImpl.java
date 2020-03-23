@@ -1,4 +1,4 @@
-package com.codechallenge.services;
+package com.codechallenge.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,28 +15,25 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.codechallenge.domains.Account;
-import com.codechallenge.domains.Transaction;
-import com.codechallenge.exceptions.NoAccountException;
-import com.codechallenge.exceptions.NoFundsException;
-import com.codechallenge.models.SearchRequest;
-import com.codechallenge.models.StatusRequest;
-import com.codechallenge.models.StatusResponse;
-import com.codechallenge.models.TransactionRequest;
-import com.codechallenge.models.TransactionResponse;
+import com.codechallenge.domain.Account;
+import com.codechallenge.domain.Transaction;
+import com.codechallenge.exception.NoAccountException;
+import com.codechallenge.exception.NoFundsException;
+import com.codechallenge.model.SearchRequest;
+import com.codechallenge.model.StatusRequest;
+import com.codechallenge.model.StatusResponse;
+import com.codechallenge.model.TransactionRequest;
+import com.codechallenge.model.TransactionResponse;
 import com.codechallenge.models.enums.TransactionChannel;
 import com.codechallenge.models.enums.TransactionStatus;
-import com.codechallenge.repositories.AccountRepository;
-import com.codechallenge.repositories.TransactionRepository;
+import com.codechallenge.repository.AccountRepository;
+import com.codechallenge.repository.TransactionRepository;
+import com.codechallenge.service.TransactionService;
 
 import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Service
-public class TransactionService {
-
-	public static final String DEFAULT_SORT_PROPERTY = "amount";
-	private static final int REFERENCE_LENGTH = 6;
-
+public class TransactionServiceImpl implements TransactionService{
 	
 	private final TransactionRepository transactionRepository;
 	private final AccountRepository accountRepository;
@@ -86,7 +83,7 @@ public class TransactionService {
 
 	private String createReferenceFactory(final TransactionRequest transaction) {
 		if (transaction.getReference() == null || transaction.getReference().trim().equals("")) {
-			return RandomStringUtils.randomAlphanumeric(TransactionService.REFERENCE_LENGTH);
+			return RandomStringUtils.randomAlphanumeric(TransactionServiceImpl.REFERENCE_LENGTH);
 		}
 
 		return transaction.getReference();
@@ -103,11 +100,11 @@ public class TransactionService {
 
 	public List<Transaction> findTransactions(final SearchRequest searchRequest) {
 		if (searchRequest == null) {
-			return this.transactionRepository.findAll(Sort.by(Direction.ASC, TransactionService.DEFAULT_SORT_PROPERTY));
+			return this.transactionRepository.findAll(Sort.by(Direction.ASC, TransactionServiceImpl.DEFAULT_SORT_PROPERTY));
 		}
 
 		final Direction direction = searchRequest.getSort() == null ? Direction.ASC : searchRequest.getSort();
-		final Sort sort = Sort.by(direction, TransactionService.DEFAULT_SORT_PROPERTY);
+		final Sort sort = Sort.by(direction, TransactionServiceImpl.DEFAULT_SORT_PROPERTY);
 
 		return searchRequest.getIban() == null ? this.transactionRepository.findAll(sort)
 				: this.transactionRepository.findByIban(searchRequest.getIban(), sort);
@@ -119,7 +116,7 @@ public class TransactionService {
 		final Transaction transaction = this.transactionRepository.findByReference(reference);
 
 		final StatusResponse statusResponse = new StatusResponse(reference);
-		statusResponse.setStatus(this.transactionStatusFactory(transaction));
+		statusResponse.setStatus(this.transactionStatusFactory(transaction, statusRequest));
 		statusResponse.setAmount(this.statusAmountFactory(transaction, channel));
 		statusResponse.setFee(this.statusFeeFactory(transaction, channel));
 
@@ -130,7 +127,7 @@ public class TransactionService {
 		return statusRequest.getChannel() == null ? TransactionChannel.CLIENT : statusRequest.getChannel();
 	}
 
-	private TransactionStatus transactionStatusFactory(final Transaction transaction) {
+	private TransactionStatus transactionStatusFactory(final Transaction transaction, StatusRequest statusRequest) {
 		if (transaction == null) {
 			return TransactionStatus.INVALID;
 		}
@@ -141,7 +138,8 @@ public class TransactionService {
 
 		if (transactionLocalDate.isBefore(actualLocalDate)) {
 			return TransactionStatus.SETTLED;
-		} else if (transactionLocalDate.isEqual(actualLocalDate)) {
+		} else if (transactionLocalDate.isEqual(actualLocalDate) || 
+				(transactionLocalDate.isAfter(actualLocalDate) && statusRequest.getChannel() == TransactionChannel.ATM)) {
 			return TransactionStatus.PENDING;
 		} else {
 			return TransactionStatus.FUTURE;
