@@ -12,6 +12,7 @@
 - `BigDecimal` is used to store and manage amount and fee to avoid `double` operations round errors.
 - Some custom REST errors handlers have been created, but more could be needed by functional requirements.
 - CORS config is added for security reasons, but may be assumed by microservices proxy system.
+- The services are implemented using their respective interface.
 
 ## Create transaction assumptions
 
@@ -43,4 +44,4 @@
 ## TODO
 
 - Unit testing
-- More cucumber tests for assumptions
+- Integration Tests with SpringBootTest

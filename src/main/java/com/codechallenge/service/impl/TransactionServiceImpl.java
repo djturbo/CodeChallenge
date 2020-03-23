@@ -37,7 +37,7 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	private final TransactionRepository transactionRepository;
 	private final AccountRepository accountRepository;
-
+	
 	@Transactional
 	public TransactionResponse createTransaction(final TransactionRequest transactionRequest) {
 		final BigDecimal total = this.getTotal(transactionRequest);
